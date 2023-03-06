@@ -165,6 +165,12 @@ ifeq ($(HOSTARCH),$(ARCH))
 CROSS_COMPILE ?=
 endif
 
+# 添加我们本地的交叉编译环境
+ifeq ($(ARCH),arm)
+CROSS_COMPILE = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-
+endif
+
+
 # load other configuration
 include $(TOPDIR)/config.mk
 
