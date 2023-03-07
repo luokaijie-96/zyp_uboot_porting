@@ -167,6 +167,18 @@ skip_check_didle:
 	ldrne	r0, =S5PC110_WATCHDOG_BASE		@ 0xE2700000
 	str	r5, [r0]
 
+
+    /*********************************/
+	//开发板供电置锁
+    ldr r0, =0xe010e81c
+    ldr r1, [r0]
+    orr r1, r1, #0x300
+    orr r1, r1, #0x1
+    str r1, [r0]
+    /*********************************/
+
+
+
 	/* setting SRAM */
 	ldreq	r0, =S5PC100_SROMC_BASE
 	ldrne	r0, =S5PC110_SROMC_BASE
@@ -445,5 +457,12 @@ uart_asm_init:
 	ldr	r1, [r0, #0x4]			@ S5PC1XX_GPIO_DAT_OFFSET
 	orr	r1, r1, #(1 << 7)		@ 7 = 7 * 1-bit
 	str	r1, [r0, #0x4]			@ S5PC1XX_GPIO_DAT_OFFSET
+
+    /******************************/
+	// 串口2 打印 'O'
+    ldr	r1, =0x4f4f4f4f
+	ldr r2, =0XE2900820
+    str	r1, [r2]		@'O'
+	/******************************/
 200:
 	mov	pc, lr
