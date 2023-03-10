@@ -210,6 +210,16 @@ skip_check_didle:
 	/* for UART */
 	bl	uart_asm_init
 
+	//DDR init
+	bl mem_ctrl_asm_init
+
+	 /******************************/
+	// 串口2 打印 'K'
+    ldr	r1, =0x4b4b4b4b
+	ldr r2, =0XE2900820
+    str	r1, [r2]		@'K'
+	/******************************/
+
 	bl	internal_ram_init
 
 	cmp	r7, r8
