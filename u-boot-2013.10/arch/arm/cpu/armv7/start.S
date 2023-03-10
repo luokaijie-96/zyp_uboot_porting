@@ -128,25 +128,6 @@ reset:
 	orr	r0, r0, #0xc0		@ disable FIQ and IRQ
 	msr	cpsr,r0
 
-		//第一步: 把所有引脚设置成输出模式
-        ldr r0, =0x11111111     //从后面的 = 可以看出用的是 ldr 伪指令，因为需要编译器来判断这个数
-        ldr r1, =0xE0200240     //是合法立即数还是非法立即数，一般写代码都用 ldr 伪指令
-        str r0, [r1]            // 寄存器间接寻址。功能是把 r0 中的数写入到 r1 中的数为地址的内存中去
-
-        //第二步:
-        ldr r0, =((1 << 3) | (0 << 4) | (0 << 5)) //熄灭左边的 LED
-        ldr r1, =0xE0200244
-        str r0, [r1]            //把 0 写入到 GPJ0DAT 寄存器中，引脚即输出低电平，LED 点亮
-
-        //延时函数
-delay1:
-        ldr r2, =10000000
-        ldr r3, =0x0
-delay_loop1:
-        sub r2, r2, #1          // r2 = r2 -1
-        cmp r2, r3              // cmp 会影响 z 标志位，如果 r2 等于 r3 则 z =1，下一句中 eq 就会成立
-        bne delay_loop1
-
 /*
  * Setup vector:
  * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
@@ -166,25 +147,6 @@ delay_loop1:
 	/* the mask ROM code should have PLL and others stable */
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 	bl	cpu_init_cp15
-
-	//第一步: 把所有引脚设置成输出模式
-        ldr r0, =0x11111111     //从后面的 = 可以看出用的是 ldr 伪指令，因为需要编译器来判断这个数
-        ldr r1, =0xE0200240     //是合法立即数还是非法立即数，一般写代码都用 ldr 伪指令
-        str r0, [r1]            // 寄存器间接寻址。功能是把 r0 中的数写入到 r1 中的数为地址的内存中去
-
-        //第二步:
-        ldr r0, =((0 << 3) | (1 << 4) | (0 << 5)) //熄灭中间的 LED
-        ldr r1, =0xE0200244
-        str r0, [r1]            //把 0 写入到 GPJ0DAT 寄存器中，引脚即输出低电平，LED 点亮
-
-        //延时函数
-delay2:
-        ldr r2, =10000000
-        ldr r3, =0x0
-delay_loop2:
-        sub r2, r2, #1          // r2 = r2 -1
-        cmp r2, r3              // cmp 会影响 z 标志位，如果 r2 等于 r3 则 z =1，下一句中 eq 就会成立
-        bne delay_loop2
 
 
 	bl	cpu_init_crit
@@ -307,25 +269,6 @@ ENTRY(cpu_init_crit)
 	 * basic memory. Go here to bump up clock rate and handle
 	 * wake up conditions.
 	 */
-
-	 //第一步: 把所有引脚设置成输出模式
-        ldr r0, =0x11111111     //从后面的 = 可以看出用的是 ldr 伪指令，因为需要编译器来判断这个数
-        ldr r1, =0xE0200240     //是合法立即数还是非法立即数，一般写代码都用 ldr 伪指令
-        str r0, [r1]            // 寄存器间接寻址。功能是把 r0 中的数写入到 r1 中的数为地址的内存中去
-
-        //第二步:
-        ldr r0, =((0 << 3) | (0 << 4) | (1 << 5)) //熄灭右边的 LED
-        ldr r1, =0xE0200244
-        str r0, [r1]            //把 0 写入到 GPJ0DAT 寄存器中，引脚即输出低电平，LED 点亮
-
-        //延时函数
-delay3:
-        ldr r2, =10000000
-        ldr r3, =0x0
-delay_loop3:
-        sub r2, r2, #1          // r2 = r2 -1
-        cmp r2, r3              // cmp 会影响 z 标志位，如果 r2 等于 r3 则 z =1，下一句中 eq 就会成立
-        bne delay_loop3
 
 	b	lowlevel_init		@ go setup pll,mux,memory
 ENDPROC(cpu_init_crit)
