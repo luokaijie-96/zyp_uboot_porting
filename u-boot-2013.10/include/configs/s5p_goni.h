@@ -44,6 +44,9 @@
 #define	DMC1_TIMING_PWR		0x08280232	// TimingPower
 
 
+#define CFG_ENV_SIZE		0x4000	/* Total Size of Environment Sector */
+#define CONFIG_EVT1         1
+
 /*********************************************************/
 
 /* DRAM Base */
@@ -51,6 +54,8 @@
 
 /* Text Base */
 #define CONFIG_SYS_TEXT_BASE		0x34800000
+
+#define CFG_PHY_UBOOT_BASE  CONFIG_SYS_TEXT_BASE
 
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_CMDLINE_TAG

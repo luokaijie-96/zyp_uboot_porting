@@ -80,7 +80,7 @@ ENTRY(_main)
  * relocate_code(addr_moni). Trick here is that we'll return
  * 'here' but relocated.
  */
-
+#if 0
 	ldr	sp, [r9, #GD_START_ADDR_SP]	/* sp = gd->start_addr_sp */
 	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
 	ldr	r9, [r9, #GD_BD]		/* r9 = gd->bd */
@@ -91,6 +91,7 @@ ENTRY(_main)
 	add	lr, lr, r0
 	ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd->relocaddr */
 	b	relocate_code
+#endif
 here:
 
 /* Set up final (full) environment */

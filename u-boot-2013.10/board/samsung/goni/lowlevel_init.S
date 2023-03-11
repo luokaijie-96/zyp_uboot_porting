@@ -220,7 +220,10 @@ skip_check_didle:
     str	r1, [r2]		@'K'
 	/******************************/
 
-	bl	internal_ram_init
+	mov	lr, r11
+	mov	pc, lr
+
+	//bl	internal_ram_init
 
 	cmp	r7, r8
 	/* Clear wakeup status register */
