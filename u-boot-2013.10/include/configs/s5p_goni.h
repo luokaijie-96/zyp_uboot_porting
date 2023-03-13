@@ -47,6 +47,9 @@
 #define CFG_ENV_SIZE		0x4000	/* Total Size of Environment Sector */
 #define CONFIG_EVT1         1
 
+// banner
+#define CONFIG_IDENT_STRING " FOR MY_ARM_BOOT "
+
 /*********************************************************/
 
 /* DRAM Base */
