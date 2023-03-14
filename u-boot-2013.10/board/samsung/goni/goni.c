@@ -22,7 +22,8 @@ int board_init(void)
 	/* Set Initial global variables */
 	s5pc110_gpio = (struct s5pc110_gpio *)S5PC110_GPIO_BASE;
 
-	gd->bd->bi_arch_number = MACH_TYPE_GONI;
+	//gd->bd->bi_arch_number = MACH_TYPE_GONI;
+	gd->bd->bi_arch_number = MACH_TYPE_SMDKV210;
 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
 
 	return 0;
@@ -30,6 +31,7 @@ int board_init(void)
 
 int power_init_board(void)
 {
+	#if 0  //屏蔽"Board PMIC init"打印,因为没用到 PMIC
 	int ret;
 
 	/*
@@ -39,6 +41,8 @@ int power_init_board(void)
 	ret = pmic_init(I2C_0);
 	if (ret)
 		return ret;
+
+	#endif	
 
 	return 0;
 }
@@ -64,7 +68,8 @@ void dram_init_banksize(void)
 #ifdef CONFIG_DISPLAY_BOARDINFO
 int checkboard(void)
 {
-	puts("Board:\tGoni\n");
+	//puts("Board:\tGoni\n");
+	puts("Board:\tMY_ARM_BOOT_BOARD\n");
 	return 0;
 }
 #endif

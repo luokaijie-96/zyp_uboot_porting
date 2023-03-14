@@ -519,7 +519,7 @@ void board_init_r(gd_t *id, ulong dest_addr)
 	monitor_flash_len = _end_ofs;
 
 	/* Enable caches */
-	enable_caches();
+	//enable_caches(); //屏蔽 "WARNING: Caches not enabled" 的警告.
 
 	debug("monitor flash len: %08lX\n", monitor_flash_len);
 	board_init();	/* Setup chipselects */
