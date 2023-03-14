@@ -117,6 +117,8 @@ static unsigned long s5pc110_get_pll_clk(int pllreg)
 	/* SDIV [2:0] */
 	s = r & 0x7;
 
+	//printf("m = %d, p = %d, s = %d.\n", m, p, s);
+
 	freq = CONFIG_SYS_CLK_FREQ_C110;
 	if (pllreg == APLL) {
 		if (s < 1)
@@ -145,6 +147,8 @@ static unsigned long s5pc110_get_arm_clk(void)
 	apll_ratio = div & 0x7;
 
 	dout_apll = get_pll_clk(APLL) / (apll_ratio + 1);
+
+	//printf("apll_ratio = %d.\n", apll_ratio + 1);
 	armclk = dout_apll;
 
 	return armclk;

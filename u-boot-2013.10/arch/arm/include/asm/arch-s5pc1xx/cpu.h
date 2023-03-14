@@ -63,6 +63,7 @@ static inline char *s5p_get_cpu_name(void)
 	return S5P_CPU_NAME;
 }
 
+/*
 #define IS_SAMSUNG_TYPE(type, id)			\
 static inline int cpu_is_##type(void)			\
 {							\
@@ -71,6 +72,17 @@ static inline int cpu_is_##type(void)			\
 
 IS_SAMSUNG_TYPE(s5pc100, 0xc100)
 IS_SAMSUNG_TYPE(s5pc110, 0xc110)
+*/
+
+static inline int cpu_is_s5pc110(void)
+{							
+	return 1;		
+}
+
+static inline int cpu_is_s5pc100(void)
+{							
+	return 0;		
+}
 
 #define SAMSUNG_BASE(device, base)				\
 static inline unsigned int samsung_get_base_##device(void)	\
