@@ -157,7 +157,7 @@
 #undef CONFIG_CMD_XIMG
 #define CONFIG_CMD_CACHE
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_ONENAND
+//#define CONFIG_CMD_ONENAND  //在 x210 上没有 onenand
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_CMD_MMC
 
@@ -279,13 +279,17 @@
 #define CONFIG_SYS_MONITOR_LEN		(256 << 10)	/* 256 KiB */
 
 /* FLASH and environment organization */
-#define CONFIG_ENV_IS_IN_ONENAND	1
-#define CONFIG_ENV_SIZE			(256 << 10)	/* 256 KiB, 0x40000 */
+//#define CONFIG_ENV_IS_IN_ONENAND	1
+#define CONFIG_ENV_IS_IN_MMC 1   // added
+//#define CONFIG_ENV_SIZE			(256 << 10)	/* 256 KiB, 0x40000 */
+#define CONFIG_ENV_SIZE			CFG_ENV_SIZE //环境变量大小使用三星uboot中的定义: 0x4000
 #define CONFIG_ENV_ADDR			(1 << 20)	/* 1 MB, 0x100000 */
 
-#define CONFIG_USE_ONENAND_BOARD_INIT
-#define CONFIG_SAMSUNG_ONENAND		1
-#define CONFIG_SYS_ONENAND_BASE		0xB0000000
+#define CONFIG_SYS_MMC_ENV_DEV   0  // 0表示iNand, 1表示SD卡. 表示要将环境变量保存到哪个MMC设备上.
+
+//#define CONFIG_USE_ONENAND_BOARD_INIT
+//#define CONFIG_SAMSUNG_ONENAND		1
+//#define CONFIG_SYS_ONENAND_BASE		0xB0000000
 
 #define CONFIG_DOS_PARTITION		1
 
