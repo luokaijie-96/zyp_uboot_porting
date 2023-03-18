@@ -109,6 +109,9 @@
 //机器码
 //#define CONFIG_MACH_TYPE   2456
 
+//设置环境变量分区的起始扇区
+#define CONFIG_ENV_OFFSET  (17*512)   //第17扇区开始的位置
+
 /*********************************************************/
 
 /* DRAM Base */
@@ -172,12 +175,13 @@
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_CMD_MMC
 
-#define CONFIG_BOOTDELAY		1
+#define CONFIG_BOOTDELAY		3
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
+#if 0
 /* Actual modem binary size is 16MiB. Add 2MiB for bad block handling */
 #define MTDIDS_DEFAULT		"onenand0=samsung-onenand"
 #define MTDPARTS_DEFAULT	"mtdparts=samsung-onenand:1m(bootloader)"\
@@ -256,6 +260,18 @@
 	"ubiblock=8\0" \
 	"ubi=enabled\0" \
 	"opts=always_resume=1"
+#endif
+
+#define CONFIG_ENV_OVERWRITE
+#define CONFIG_SYS_CONSOLE_IS_IN_ENV
+
+#define CONFIG_BOOTCOMMAND	"tftp 0x30008000 zImage-android; bootm 0x30008000"
+#define CONFIG_BOOTARGS	    "console=ttySAC2,115200 root=/dev/mmcblkOp2 rw init=/linuxrc rootfstype=ext3"
+#define CONFIG_ETHADDR		00:40:5c:26:0a:5b
+#define CONFIG_NETMASK      255.255.255.0
+#define CONFIG_IPADDR		192.168.1.10
+#define CONFIG_SERVERIP		192.168.1.141
+#define CONFIG_GATEWAYIP	192.168.1.1
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
@@ -293,7 +309,7 @@
 //#define CONFIG_ENV_IS_IN_ONENAND	1
 #define CONFIG_ENV_IS_IN_MMC 1   // added
 //#define CONFIG_ENV_SIZE			(256 << 10)	/* 256 KiB, 0x40000 */
-#define CONFIG_ENV_SIZE			CFG_ENV_SIZE //环境变量大小使用三星uboot中的定义: 0x4000
+#define CONFIG_ENV_SIZE			CFG_ENV_SIZE //环境变量大小使用三星uboot中的定义: 0x4000, 即 16kB
 #define CONFIG_ENV_ADDR			(1 << 20)	/* 1 MB, 0x100000 */
 
 #define CONFIG_SYS_MMC_ENV_DEV   0  // 0表示iNand, 1表示SD卡. 表示要将环境变量保存到哪个MMC设备上.
