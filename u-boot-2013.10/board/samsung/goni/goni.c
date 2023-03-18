@@ -17,6 +17,34 @@ DECLARE_GLOBAL_DATA_PTR;
 
 static struct s5pc110_gpio *s5pc110_gpio;
 
+#include "s5pc110.h" //added
+static void dm9000_pre_init(void)
+{
+	unsigned int tmp;
+
+#if defined(DM9000_16BIT_DATA)
+	//bank5
+	//SROM_BW_REG &= ~(0xf << 20);
+	//SROM_BW_REG |= (0<<23) | (0<<22) | (0<<21) | (1<<20);
+	//bank1
+	SROM_BW_REG &= ~(0xf << 4);
+	SROM_BW_REG |= (1 << 7) | (1 << 6) | (1 << 5 ) | (1 << 4);
+
+#else	
+	SROM_BW_REG &= ~(0xf << 20);
+	SROM_BW_REG |= (0<<19) | (0<<18) | (0<<16);
+#endif
+	//SROM_BC5_REG = ((0<<28)|(1<<24)|(5<<16)|(1<<12)|(4<<8)|(6<<4)|(0<<0));
+	SROM_BC1_REG = ((0<<28)|(1<<24)|(5<<16)|(1<<12)|(4<<8)|(6<<4)|(0<<0));
+
+	tmp = MP01CON_REG;
+	//tmp &=~(0xf<<20);
+	//tmp |=(2<<20);
+	tmp &=~(0xf << 4);
+	tmp |=(2 << 4);
+	MP01CON_REG = tmp;
+}
+
 int board_init(void)
 {
 	/* Set Initial global variables */
@@ -25,6 +53,12 @@ int board_init(void)
 	//gd->bd->bi_arch_number = MACH_TYPE_GONI;
 	gd->bd->bi_arch_number = MACH_TYPE_SMDKV210;
 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
+
+
+	//添加网卡初始化
+#ifdef CONFIG_DRIVER_DM9000	
+	dm9000_pre_init();
+#endif
 
 	return 0;
 }

@@ -112,6 +112,29 @@
 //设置环境变量分区的起始扇区
 #define CONFIG_ENV_OFFSET  (17*512)   //第17扇区开始的位置
 
+
+#define CONFIG_CMD_PING               //添加 ping 命令支持
+
+
+/*
+ * Hardware drivers
+ */
+#define DM9000_16BIT_DATA
+
+#define CONFIG_DRIVER_DM9000	1
+
+#ifdef CONFIG_DRIVER_DM9000
+//#define CONFIG_DM9000_BASE		(0xA8000000)
+//#define CONFIG_DM9000_BASE		    (0x88000000) //Bank1, 能够通信
+#define CONFIG_DM9000_BASE		    (0x8F000000) //Bank1,能够通信
+#define DM9000_IO			(CONFIG_DM9000_BASE)
+#if defined(DM9000_16BIT_DATA)
+//#define DM9000_DATA			(CONFIG_DM9000_BASE+2)
+#define DM9000_DATA			(CONFIG_DM9000_BASE+4)  // CMD 是 ADDR2
+#else
+#define DM9000_DATA			(CONFIG_DM9000_BASE+1)
+#endif
+#endif
 /*********************************************************/
 
 /* DRAM Base */
@@ -166,7 +189,7 @@
 
 #undef CONFIG_CMD_FPGA
 #undef CONFIG_CMD_MISC
-#undef CONFIG_CMD_NET
+//#undef CONFIG_CMD_NET
 #undef CONFIG_CMD_NFS
 #undef CONFIG_CMD_XIMG
 #define CONFIG_CMD_CACHE

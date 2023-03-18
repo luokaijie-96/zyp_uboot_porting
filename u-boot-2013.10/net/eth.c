@@ -94,7 +94,15 @@ static int __def_eth_init(bd_t *bis)
 	return -1;
 }
 int cpu_eth_init(bd_t *bis) __attribute__((weak, alias("__def_eth_init")));
-int board_eth_init(bd_t *bis) __attribute__((weak, alias("__def_eth_init")));
+//int board_eth_init(bd_t *bis) __attribute__((weak, alias("__def_eth_init")));
+
+//自己定义一个 board_eth_init 函数，做网卡驱动添加工作
+__attribute__((weak, alias("__def_eth_init")))
+int board_eth_init(bd_t *bis) 
+{
+	return dm9000_initialize(bis);
+}
+
 
 #ifdef CONFIG_API
 static struct {
